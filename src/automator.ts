@@ -1,6 +1,8 @@
 import puppeteer, { Page } from 'puppeteer';
 import { autoInjectable } from 'tsyringe';
 import { PersistService } from './service/PersistService';
+import { PostService } from './service/PostService';
+import { UserService } from './service/UserService';
 
 @autoInjectable()
 export class Automator {
@@ -8,7 +10,9 @@ export class Automator {
 
   constructor(
     baseUrl: string,
-    private persistenceService?: PersistService,
+    private persistance?: PersistService,
+    private user?: UserService,
+    private post?: PostService,
   ) {
     this.baseUrl = baseUrl;
   }
@@ -17,31 +21,17 @@ export class Automator {
     (async () => {
       const browser = await puppeteer.launch({ headless: false });
       const page = await browser.newPage();
-
-      const checkCookies = await this.persistenceService.recoverCookies(page);
+      const checkCookies = await this.persistance.recoverCookies(page);
 
       await page.goto(this.baseUrl);
+      await page.waitForTimeout(3000);
 
-      if (!checkCookies) await this.login(page);
+      if (!checkCookies) await this.user.login(page);
 
-      setTimeout(async () => {
-        await this.persistenceService.saveCookies(page);
-        await browser.close();
-      }, 10000);
+      const postExists = await this.post.checkExists(page);
+      if (postExists) await this.post.delete(page);
+
+      await browser.close();
     })();
-  }
-
-  async login(page: Page) {
-    const [acceptCookiesButton] = await page.$x("//button[contains(text(), 'Entendi')]");
-    await acceptCookiesButton.click();
-
-    const emailSelector = await page.waitForSelector('input[type="email"]');
-    await emailSelector.type(process.env.USER_EMAIL);
-
-    const passwordSelector = await page.waitForSelector('input[type="password"]');
-    await passwordSelector.type(process.env.USER_PASSWORD);
-
-    const [loginButton] = await page.$x("//button[contains(text(), 'Entrar')]");
-    await loginButton.click();
   }
 }
