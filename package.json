@@ -11,7 +11,9 @@
   "dependencies": {
     "@types/node": "^16.11.12",
     "dotenv": "^10.0.0",
-    "puppeteer": "^13.0.0"
+    "puppeteer": "^13.0.0",
+    "reflect-metadata": "^0.1.13",
+    "tsyringe": "^4.6.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.0.0",
