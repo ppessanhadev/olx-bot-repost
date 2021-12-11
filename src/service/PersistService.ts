@@ -14,9 +14,10 @@ export class PersistService {
   }
 
   /**
-* Verify if cookies of last session exists, in case that exists, set all cookies as same
-* @param {Page} - puppeteer pages from new instance
-* @returns {boolean} - if exists returns true, otherwise false
+* Verify if cookies of last session exists, in case that exists set all cookies as same
+* at the last time and return true, otherwise false.
+* @param {Page} Puppeteer.page pages from new Puppeteer instance.
+* @returns {boolean} true or false
 * @example
 * const recoverOrSave = recoverCookies(page)
 * if (!recoverOrSave) saveCookies(page)
@@ -30,8 +31,8 @@ export class PersistService {
 
       if (parsedCookies.length) {
         await parsedCookies.forEach((cookie) => page.setCookie(cookie));
+        return true;
       }
-      return true;
     }
     return false;
   }
