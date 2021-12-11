@@ -1,3 +1,4 @@
+import fs from 'fs';
 import { resolve } from 'path';
 import { Page } from 'puppeteer';
 
@@ -6,7 +7,11 @@ export class PostService {
 
   private postDescription = process.env.POST_DESCRIPTION;
 
-  private baseUploadsDir = resolve(__dirname, '..', 'assets', 'uploads');
+  private imgsPaths = [];
+
+  constructor() {
+    this.listImagesPath();
+  }
 
   public async checkExists(page: Page) {
     try {
@@ -60,8 +65,7 @@ export class PostService {
     await inputPrice.type('3000');
 
     const inputUpload = await page.waitForSelector('input.box__field');
-    await inputUpload.uploadFile(this.baseUploadsDir.concat('/3.png'));
-    await inputUpload.uploadFile(this.baseUploadsDir.concat('/japanese-wall.jpg'));
+    this.imgsPaths.forEach(async (path) => await inputUpload.uploadFile(path));
 
     const inputZipcode = await page.waitForSelector('input#zipcode');
     await inputZipcode.type('21073185');
@@ -69,5 +73,12 @@ export class PostService {
     await page.$eval('input#phone_hidden', (e: HTMLInputElement) => e.click());
 
     await page.waitForTimeout(5000);
+  }
+
+  private listImagesPath() {
+    const uploadsDirPath = resolve(__dirname, '..', 'assets', 'uploads');
+    fs.readdir(uploadsDirPath, (e, files) => {
+      files.forEach((file) => this.imgsPaths.push(`${uploadsDirPath}/${file}`));
+    });
   }
 }
