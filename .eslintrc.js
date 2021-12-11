@@ -19,6 +19,8 @@ module.exports = {
     'arrow-body-style': ['off'],
     'import/prefer-default-export': ['off'],
     'no-unused-vars': ['off'],
+    'no-useless-constructor': ['off'],
+    'no-empty-function': ['off'],
     camelcase: ['off'],
   },
   settings: {
