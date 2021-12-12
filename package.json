@@ -1,7 +1,7 @@
 {
-  "name": "backend-typescript-template",
+  "name": "olx-automator",
   "version": "1.0.0",
-  "description": "A template for backend apis made with typescript",
+  "description": "A bot created to automate sales post",
   "main": "dist/bootstrap.js",
   "license": "MIT",
   "scripts": {
