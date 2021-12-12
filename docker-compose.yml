@@ -1,0 +1,10 @@
+version: '3.3'
+
+services:
+  automator:
+    container_name: automator-post-olx
+    env_file:
+      - .env
+    build:
+      - context: .
+      - dockerfile: Dockerfile
