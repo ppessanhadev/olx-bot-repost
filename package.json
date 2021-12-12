@@ -2,11 +2,14 @@
   "name": "backend-typescript-template",
   "version": "1.0.0",
   "description": "A template for backend apis made with typescript",
-  "main": "src/bootstrap.ts",
+  "main": "dist/bootstrap.js",
   "license": "MIT",
   "scripts": {
-    "clear:all": "rm -rf node_modules && yarn-lock.json",
-    "start:dev": "ts-node-dev --inspect --transpile-only --ignore node_modules src/bootstrap.ts"
+    "build": "tsc",
+    "preinstall": "clear:modules",
+    "clear:modules": "rm -rf node_modules",
+    "start:dev": "ts-node-dev --inspect --transpile-only --ignore node_modules src/bootstrap.ts",
+    "start:prod": "node dist/bootstrap.js"
   },
   "dependencies": {
     "@types/node": "^16.11.12",
