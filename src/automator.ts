@@ -1,4 +1,4 @@
-import puppeteer, { Page } from 'puppeteer';
+import puppeteer from 'puppeteer';
 import { autoInjectable } from 'tsyringe';
 import { PersistService } from './service/PersistService';
 import { PostService } from './service/PostService';
