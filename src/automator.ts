@@ -19,7 +19,7 @@ export class Automator {
 
   async start() {
     (async () => {
-      const browser = await puppeteer.launch({ headless: false });
+      const browser = await puppeteer.launch();
       const page = await browser.newPage();
       const checkCookies = await this.persistance.recoverCookies(page);
 
@@ -30,6 +30,8 @@ export class Automator {
 
       const postExists = await this.post.checkExists(page);
       if (postExists) await this.post.delete(page);
+
+      await this.post.create(page);
 
       await browser.close();
     })();
