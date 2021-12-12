@@ -5,9 +5,7 @@
   "main": "dist/bootstrap.js",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
-    "preinstall": "clear:modules",
-    "clear:modules": "rm -rf node_modules",
+    "build": "rm -rf dist && tsc",
     "start:dev": "ts-node-dev --inspect --transpile-only --ignore node_modules src/bootstrap.ts",
     "start:prod": "node dist/bootstrap.js"
   },
@@ -16,7 +14,8 @@
     "dotenv": "^10.0.0",
     "puppeteer": "^13.0.0",
     "reflect-metadata": "^0.1.13",
-    "tsyringe": "^4.6.0"
+    "tsyringe": "^4.6.0",
+    "typescript-logging": "^1.0.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.0.0",
