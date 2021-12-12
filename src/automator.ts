@@ -19,7 +19,14 @@ export class Automator {
 
   async start() {
     (async () => {
-      const browser = await puppeteer.launch();
+      const browser = await puppeteer.launch({
+        headless: true,
+        args: [
+          '--disable-dev-shm-usage',
+          '--disable-setuid-sandbox',
+          '--no-sandbox',
+        ],
+      });
       const page = await browser.newPage();
       const checkCookies = await this.persistance.recoverCookies(page);
 
