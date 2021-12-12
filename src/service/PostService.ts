@@ -7,6 +7,10 @@ export class PostService {
 
   private postDescription = process.env.POST_DESCRIPTION;
 
+  private postPrice = process.env.POST_VALUE;
+
+  private postZipcode = process.env.POST_ZIPCODE;
+
   private imgsPaths = [];
 
   constructor() {
@@ -62,15 +66,19 @@ export class PostService {
     await modelSelector.select('1');
 
     const inputPrice = await page.waitForSelector('input#price');
-    await inputPrice.type('3000');
+    await inputPrice.type(this.postPrice);
 
     const inputUpload = await page.waitForSelector('input.box__field');
     this.imgsPaths.forEach(async (path) => await inputUpload.uploadFile(path));
 
     const inputZipcode = await page.waitForSelector('input#zipcode');
-    await inputZipcode.type('21073185');
+    await inputZipcode.type(this.postZipcode);
 
     await page.$eval('input#phone_hidden', (e: HTMLInputElement) => e.click());
+    await page.waitForTimeout(5000);
+
+    const nextButton = await page.waitForSelector('#ad_insertion_submit_button');
+    await nextButton.click();
 
     await page.waitForTimeout(5000);
   }
