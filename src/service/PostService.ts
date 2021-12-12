@@ -79,7 +79,7 @@ export class PostService {
     await inputZipcode.type(this.postZipcode);
 
     await page.$eval('input#phone_hidden', (e: HTMLInputElement) => e.click());
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(10000);
 
     const nextButton = await page.waitForSelector('#ad_insertion_submit_button');
     await nextButton.click();
