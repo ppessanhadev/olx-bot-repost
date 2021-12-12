@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { resolve } from 'path';
 import { Page } from 'puppeteer';
+import logger from '../config/logger';
 
 export class PostService {
   private postTitle = process.env.POST_TITLE;
@@ -28,6 +29,7 @@ export class PostService {
   }
 
   public async delete(page: Page) {
+    logger.delete.info('DELETING LAST PUBLISH');
     const [deletePost] = await page.$x("//button[contains(text(), 'Excluir')]");
     await deletePost.click();
 
@@ -39,9 +41,11 @@ export class PostService {
 
     const [confirmDelete] = await page.$x("//a[contains(text(), 'Não, obrigado.')]");
     await confirmDelete.click();
+    logger.delete.info('DELETED SUCCESSFULLY');
   }
 
   public async create(page: Page) {
+    logger.create.info('STARTING REPUBLISH');
     const announceButton = await page.waitForSelector('a[href="https://www2.olx.com.br/desapega"');
     await announceButton.click();
 
@@ -80,6 +84,7 @@ export class PostService {
     const nextButton = await page.waitForSelector('#ad_insertion_submit_button');
     await nextButton.click();
 
+    logger.create.info('REPUBLISH SUCCESSFULLY');
     await page.waitForTimeout(5000);
   }
 

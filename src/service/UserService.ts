@@ -1,5 +1,6 @@
 import { Page } from 'puppeteer';
 import { autoInjectable } from 'tsyringe';
+import logger from '../config/logger';
 import { PersistService } from './PersistService';
 
 @autoInjectable()
@@ -11,6 +12,7 @@ export class UserService {
   constructor(private persistance?: PersistService) {}
 
   public async login(page: Page) {
+    logger.login.info('MAKING LOGIN');
     const [acceptCookiesButton] = await page.$x("//button[contains(text(), 'Entendi')]");
     await acceptCookiesButton.click();
 
