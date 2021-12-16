@@ -46,8 +46,7 @@ export class PostService {
 
   public async create(page: Page) {
     logger.create.info('STARTING REPUBLISH');
-    const announceButton = await page.waitForSelector('a[href="https://www2.olx.com.br/desapega"');
-    await announceButton.click();
+    await page.goto('https://www2.olx.com.br/desapega');
 
     await page.waitForTimeout(3000);
 
